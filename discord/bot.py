@@ -34,13 +34,15 @@ async def register(interaction: SlashInteraction, address: str):
                 where guild_id = '%s' and wallet_registration_ts <= (select wallet_registration_ts from discord_wallets where user_id = '%s' and guild_id = '%s')
                 """,(guild.id,user.id,guild.id))
                 count = cur.fetchone()[0]
+                extra = ""
                 if count <= 1000:
                     for r in guild.roles:
                         role: Role = r
                         if role.name == "XMas 21":
                             await member.add_roles(role)
-                await interaction.reply(f"Successfully registered your Ergo Wallet address. You were person number {count} to do so.")
+                            extra = "Because you are one of the first 1000, you are assigned the 'XMas 21' Role!"
+                await interaction.reply(f"CONGRATULATIONS! You are {count} of 1000 to successfully register. {extra}")
     else:
-        await interaction.reply("Invalid Ergo wallet address")
+        await interaction.reply("ERROR! Please re-enter a valid Ergo wallet address.")
 
 client.run(os.environ.get("DISCORD_KEY"))
