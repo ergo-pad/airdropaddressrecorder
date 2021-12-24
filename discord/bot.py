@@ -31,8 +31,8 @@ async def register(interaction: SlashInteraction, address: str):
                 conn.commit()
                 cur.execute("""
                 SELECT count(*) from discord_wallets
-                where wallet_registration_ts <= (select wallet_registration_ts from discord_wallets where user_id = '%s' and guild_id = '%s')
-                """,(user.id,guild.id))
+                where guild_id = '%s' and wallet_registration_ts <= (select wallet_registration_ts from discord_wallets where user_id = '%s' and guild_id = '%s')
+                """,(guild.id,user.id,guild.id))
                 count = cur.fetchone()[0]
                 if count <= 1000:
                     for r in guild.roles:
