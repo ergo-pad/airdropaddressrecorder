@@ -42,7 +42,7 @@ async def register(interaction: SlashInteraction, address: str):
                     """,(guild.id,user.id,guild.id))
                     ogcount = cur.fetchone()[0]
                     if ogcount > 0 and ogcount <= 1500:
-                        extra = f"You were Discord member number {ogcount} and that makes you an AnetaBTC OG! You qualify for the airdrop and on top of that you get the OG Discord role!"
+                        extra = f"You were Discord member number {ogcount}, Congratulations and thank you for being one of the first 1,500 Discord members to join our community. 😇 You are now successfully registered and will receive your airdrop soon!🥳🎉"
                         for r in guild.roles:
                             role: Role = r
                             if role.name == "OG":
