@@ -34,13 +34,19 @@ async def register(interaction: SlashInteraction, address: str):
                 where guild_id = '%s' and wallet_registration_ts <= (select wallet_registration_ts from discord_wallets where user_id = '%s' and guild_id = '%s')
                 """,(guild.id,user.id,guild.id))
                 count = cur.fetchone()[0]
-                extra = "" #"Unfortunately, you were not one of the first 1,000 addresses, but we will use this address to airdrop NETA you qualify for in the near future. Merry Christmas! 🎅😇"
-                # if count <= 1000:
-                #     for r in guild.roles:
-                #         role: Role = r
-                #         if role.name == "XMas 21":
-                #             await member.add_roles(role)
-                #             extra = "To celebrate being one of the first 1000, you're assigned the 'XMas 21' Role and we are going to send you 1,000 NETA in the near future. Merry Christmas! 🎅😇"
+                extra = ""
+                if guild.id == 876475955701501962:
+                    cur.execute("""
+                    SELECT count(*) from discord_users
+                    where guild_id = '%s' and join_date <= (select join_date from discord_users where user_id = '%s' and guild_id = '%s')
+                    """,(guild.id,user.id,guild.id))
+                    ogcount = cur.fetchone()[0]
+                    if ogcount > 0 and ogcount <= 1500:
+                        extra = f"You were Discord member number {ogcount} and that makes you an AnetaBTC OG! You qualify for the airdrop and on top of that you get the OG Discord role!"
+                        for r in guild.roles:
+                            role: Role = r
+                            if role.name == "OG":
+                                await member.add_roles(role)
                 await interaction.reply(f"CONGRATULATIONS! 🎊 You are #{count} to successfully register your Ergo Wallet address. {extra}")
     else:
         await interaction.reply("ERROR! Please re-enter a valid Ergo wallet address.")
