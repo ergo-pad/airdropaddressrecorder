@@ -36,13 +36,14 @@ async def register(interaction: SlashInteraction, address: str):
                 count = cur.fetchone()[0]
                 extra = ""
                 if guild.id == 876475955701501962:
+                    extra = f"🦾 We'll keep this on hand for any future airdrops and events!😇"
                     cur.execute("""
                     SELECT count(*) from discord_users
                     where guild_id = '%s' and join_date <= (select join_date from discord_users where user_id = '%s' and guild_id = '%s')
                     """,(guild.id,user.id,guild.id))
                     ogcount = cur.fetchone()[0]
                     if ogcount > 0 and ogcount <= 1500:
-                        extra = f"You were Discord member number {ogcount}, Congratulations and thank you for being one of the first 1,500 Discord members to join our community. 😇 You are now successfully registered and will receive your airdrop soon!🥳🎉"
+                        extra = f"You were Discord member number {ogcount}, congratulations and thank you for being one of the first 1,500 Discord members to join our community. 😇 You are now successfully registered and will receive your airdrop soon!🥳🎉"
                         for r in guild.roles:
                             role: Role = r
                             if role.name == "OG":
