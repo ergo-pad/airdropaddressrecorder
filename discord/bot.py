@@ -48,7 +48,7 @@ async def register(interaction: SlashInteraction, address: str):
                             role: Role = r
                             if role.name == "OG":
                                 await member.add_roles(role)
-                await interaction.reply(f"CONGRATULATIONS! 🎊 You are #{count} to successfully register your Ergo Wallet address. {extra}")
+                await interaction.reply(f"CONGRATULATIONS! 🎊 You successfully registered your Ergo Wallet address. {extra}")
     else:
         await interaction.reply("ERROR! Please re-enter a valid Ergo wallet address.")
 
