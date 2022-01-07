@@ -39,7 +39,7 @@ def register(update: Update, context: CallbackContext):
                 cur.execute("""
                 SELECT count(*) from telegram_users
                 where join_date <= (select join_date from telegram_users where user_id = '%s')
-                """,(str(user.id)))
+                """,(str(user.id),))
                 ogcount = cur.fetchone()[0]
                 if ogcount > 0 and ogcount <= 1500:
                     extra = f"You were Telegram member number {ogcount}, congratulations and thank you for being one of the first 1,500 Telegram members to join our community. 😇 You are now successfully registered and will receive your airdrop soon!🥳🎉"
