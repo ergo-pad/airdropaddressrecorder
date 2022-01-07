@@ -32,14 +32,14 @@ def register(update: Update, context: CallbackContext):
                 ON CONFLICT ON CONSTRAINT "telegram_wallets_USER_ID"
                 DO UPDATE SET
                 (user_name, wallet_address, wallet_update_ts)
-                = (EXCLUDED.user_name, EXCLUDED.wallet_address, CURRENT_TIMESTAMP)""",(user.id,user.full_name,address))
+                = (EXCLUDED.user_name, EXCLUDED.wallet_address, CURRENT_TIMESTAMP)""",(str(user.id),user.full_name,address))
                 conn.commit()
                 extra = ""
                 extra = f"🦾 We'll keep this on hand for any future airdrops and events!😇"
                 cur.execute("""
                 SELECT count(*) from telegram_users
                 where join_date <= (select join_date from telegram_users where user_id = '%s')
-                """,(user.id))
+                """,(str(user.id)))
                 ogcount = cur.fetchone()[0]
                 if ogcount > 0 and ogcount <= 1500:
                     extra = f"You were Telegram member number {ogcount}, congratulations and thank you for being one of the first 1,500 Telegram members to join our community. 😇 You are now successfully registered and will receive your airdrop soon!🥳🎉"
