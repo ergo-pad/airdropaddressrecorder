@@ -34,16 +34,7 @@ def register(update: Update, context: CallbackContext):
                 (user_name, wallet_address, wallet_update_ts)
                 = (EXCLUDED.user_name, EXCLUDED.wallet_address, CURRENT_TIMESTAMP)""",(user.id,user.full_name,address))
                 conn.commit()
-                extra = ""
-                extra = f"🦾 We'll keep this on hand for any future airdrops and events!😇"
-                cur.execute("""
-                SELECT count(*) from telegram_users
-                where join_date <= (select join_date from telegram_users where user_id = '%s')
-                """,(user.id,))
-                ogcount = cur.fetchone()[0]
-                if ogcount > 0 and ogcount <= 1500:
-                    extra = f"You were Telegram member number {ogcount}, congratulations and thank you for being one of the first 1,500 Telegram members to join our community. 😇 You are now successfully registered and will receive your airdrop soon!🥳🎉"
-                context.bot.send_message(chat_id=update.effective_chat.id, text=f"CONGRATULATIONS! 🎊 You successfully registered your Ergo Wallet address. {extra}")
+                context.bot.send_message(chat_id=update.effective_chat.id, text=f"CONGRATULATIONS! 🎊 You successfully registered your Ergo Wallet address.")
     else:
         context.bot.send_message(chat_id=update.effective_chat.id, text="ERROR! Please re-enter a valid Ergo wallet address.")
 
